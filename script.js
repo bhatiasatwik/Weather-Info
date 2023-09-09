@@ -7,6 +7,14 @@ async function checkWeather()
     const response =await fetch(apiurl+city+`&appid=${apikey}`);
     var data=await response.json();
     console.log(data);
+    console.log(data.cod);
+    if(data.cod==='404')
+    {
+        document.querySelector('.weather').style.display="none";
+        input_box.value="Invalid city entered";
+        console.log(input_box.event.key);
+        return;
+    }
     document.querySelector('.city').innerHTML=city.toUpperCase();//city name
 
     document.querySelector('.temp').innerHTML=`${Math.round(data.main.feels_like)}°C`;//temp
@@ -17,7 +25,6 @@ async function checkWeather()
     
     const weather_icon=document.querySelector('.big-img');
     const condition=data.weather[0].main;
-    console.log(condition);
     if(condition==='Clouds')
     {
         weather_icon.src="weather-app-img/images/clouds.png"
